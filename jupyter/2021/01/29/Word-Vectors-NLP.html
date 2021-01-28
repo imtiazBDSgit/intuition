@@ -504,18 +504,16 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p><code>The new objective is to predict, for any given word-context pair (w,c), whether the word (c) is in the context window of the the center word (w) or not. Since the goal is to identify a given word as True (positive, D=1) or False (negative, D=0)</code></p>
 <p>The probability of a word (c) appearing within the context of the center word (w) can be defined as</p>
 <p>$p(D=1|w,c;\theta)=\frac{1}{1+exp(-\bar{c}_{output_{(j)}} \cdot w)}
-\in \mathbb{R}^{1}
-\tag{1}$</p>
+\in \mathbb{R}^{1}$</p>
 <p>c is the word you want to know whether it came from the context window or the noise distribution. w is the input (center) word, and θ is the weight matrix passed into the model.</p>
 <p>Note that w is equivalent to the hidden layer h.</p>
 <p>$\bar{c}_{output_{(j)}}$ is the word vector from the output weight matrix $W_{output}$</p>
 <p>The equation ($1$) computes the probability that the given word (c) is a positive word (D=1). It only needs to be applied K+1 times instead of V times for every word in the vocabulary, because $\bar{c}_{output_{(j)}}$ comes from the concatenation of a true context word $c_{pos}$ and K negative words</p>
 <p>$\bar{W}_{neg} = \{ \bar{c}_{neg, j}|j=1,\cdots,K \}$</p>
-<p>$\bar{c}_{output{(j)}} \in \{\bar{c}_{pos}\} \cup \bar{W}_{neg}
-\tag{2}$</p>
+<p>$\bar{c}_{output{(j)}} \in \{\bar{c}_{pos}\} \cup \bar{W}_{neg}$</p>
 <p>This probability is computed K+1 times to obtain a probability distribution of a true context word and K negative samples:</p>
 <p>$\left[ \begin{array}{c} p(D=1|w,c_{pos}) \\ p(D=1|w,c_{neg, 1}) \\ p(D=1|w,c_{neg, 2}) \\ p(D=1|w,c_{neg, 3}) \\ \vdots \\ p(D=1|w,c_{neg, K}) \end{array} \right] 
-= \frac{1}{1+exp(-(\{\bar{c}_{pos}\} \cup \bar{W}_{neg}) \cdot h)}\in \mathbb{R}^{K+1}\tag{3}$
+= \frac{1}{1+exp(-(\{\bar{c}_{pos}\} \cup \bar{W}_{neg}) \cdot h)}\in \mathbb{R}^{K+1}$
 Example of optimizing</p>
 <p><figure>
   
