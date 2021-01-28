@@ -4,19 +4,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>WORD VECTORS. | fastpages</title>
+<title>Word Vectors | fastpages</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="WORD VECTORS." />
+<meta property="og:title" content="Word Vectors" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
-<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
-<link rel="canonical" href="https://imtiazbdsgit.github.io/intuition/2021/01/28/Word-Vectors-NLP.html" />
-<meta property="og:url" content="https://imtiazbdsgit.github.io/intuition/2021/01/28/Word-Vectors-NLP.html" />
+<meta name="description" content="A tutorial on understanding meaning of words in vector space." />
+<meta property="og:description" content="A tutorial on understanding meaning of words in vector space." />
+<link rel="canonical" href="https://imtiazbdsgit.github.io/intuition/jupyter/2021/01/28/Word-Vectors-NLP.html" />
+<meta property="og:url" content="https://imtiazbdsgit.github.io/intuition/jupyter/2021/01/28/Word-Vectors-NLP.html" />
 <meta property="og:site_name" content="fastpages" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-01-28T00:00:00-06:00" />
 <script type="application/ld+json">
-{"url":"https://imtiazbdsgit.github.io/intuition/2021/01/28/Word-Vectors-NLP.html","@type":"BlogPosting","headline":"WORD VECTORS.","dateModified":"2021-01-28T00:00:00-06:00","datePublished":"2021-01-28T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://imtiazbdsgit.github.io/intuition/2021/01/28/Word-Vectors-NLP.html"},"description":"An easy to use blogging platform with support for Jupyter Notebooks.","@context":"https://schema.org"}</script>
+{"url":"https://imtiazbdsgit.github.io/intuition/jupyter/2021/01/28/Word-Vectors-NLP.html","@type":"BlogPosting","headline":"Word Vectors","dateModified":"2021-01-28T00:00:00-06:00","datePublished":"2021-01-28T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://imtiazbdsgit.github.io/intuition/jupyter/2021/01/28/Word-Vectors-NLP.html"},"description":"A tutorial on understanding meaning of words in vector space.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/intuition/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://imtiazbdsgit.github.io/intuition/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/intuition/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -71,7 +71,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">WORD VECTORS.</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-28T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Word Vectors</h1><p class="page-description">A tutorial on understanding meaning of words in vector space.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-28T00:00:00-06:00" itemprop="datePublished">
         Jan 28, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -81,6 +81,13 @@ window.onload = wrap_img;
     
 </span></p>
 
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/intuition/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
     
 
     
@@ -108,7 +115,20 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul class="section-nav">
+<li class="toc-entry toc-h5"><a href="#Language-Models-(Unigrams,-Bigrams,-etc.)">Language Models (Unigrams, Bigrams, etc.) </a></li>
+<li class="toc-entry toc-h3"><a href="#Continuos-Bag-of-Words">Continuos Bag of Words </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#CBOW-FLOW">CBOW FLOW </a></li>
+<li class="toc-entry toc-h4"><a href="#Skip-Gram">Skip Gram </a></li>
+<li class="toc-entry toc-h4"><a href="#Numerical-Demonstration-of-the-end-to-end-process">Numerical Demonstration of the end to end process </a></li>
+<li class="toc-entry toc-h4"><a href="#Negative-Sampling">Negative Sampling </a></li>
+<li class="toc-entry toc-h4"><a href="#Numerical-Demo">Numerical Demo </a></li>
+<li class="toc-entry toc-h4"><a href="#Positive-word-pair:-(Ned,-is)">Positive word pair: (Ned, is) </a></li>
+<li class="toc-entry toc-h4"><a href="#References">References </a></li>
+</ul>
+</li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -117,20 +137,29 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For example:</p>
 <ol>
-<li><code>There are more cats in this room</code>. <b>(plural)</b></li>
-<li><code>The best pet I ever had was a cat</code>. <b>(past tense)</b></li>
-<li><code>A tom cat is louder</code>. <b>(gender)</b></li>
+<li>
+<code>There are more cats in this room</code>. <b>(plural)</b>
+</li>
+<li>
+<code>The best pet I ever had was a cat</code>. <b>(past tense)</b>
+</li>
+<li>
+<code>A tom cat is louder</code>. <b>(gender)</b>
+</li>
 </ol>
 <p>The way is to encode these words in some sort of multidimensional word space with the expectation that each dimension would catch some notion of semantics for example plurality, tense, gender etc. Now once we have that information in vector space per word we can use traditional similarity techniques like <b>cosine, Euclidean</b> etc. among different words.</p>
 <p>The idea is to design a model where word vectors are the parameters of the model and to train the model on a certain objective which would at each iteration improve the parameters (word vectors).  At every iteration we run our model, evaluate the errors, and follow an update rule that has some notion of penalizing the model parameters that caused the error. Thus, we learn our word vectors. Yes you are thinking right <b>back propagation</b> is the word”.</p>
 <p>There are two algorithms to achieve this:</p>
 <ol>
-<li><b>Continuous bag of words (CBOW)</b>: CBOW aims to predict a center word from the surrounding context in terms of word vectors.</li>
-<li><b>Skip-gram</b>: Skip-gram does the opposite, and predicts the distribution (probability) of context words from a center word.</li>
+<li>
+<b>Continuous bag of words (CBOW)</b>: CBOW aims to predict a center word from the surrounding context in terms of word vectors.</li>
+<li>
+<b>Skip-gram</b>: Skip-gram does the opposite, and predicts the distribution (probability) of context words from a center word.</li>
 </ol>
 <p>There are two training methods to achieve the above:</p>
 <ol>
@@ -141,11 +170,15 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>Lets take a step back and examine our objective more carefully</code></p>
 <p>We can try to create a model that will be able to learn one iteration at a time and eventually be able to encode the probability of a word given its context. Such type of a model in NLP world is generally called Language model.</p>
-<h5 id="Language-Models-(Unigrams,-Bigrams,-etc.)">Language Models (Unigrams, Bigrams, etc.)<a class="anchor-link" href="#Language-Models-(Unigrams,-Bigrams,-etc.)"> </a></h5><p>First, we need to create such a model that will assign a probability to a sequence of tokens. Let us start with an example:</p>
+<h5 id="Language-Models-(Unigrams,-Bigrams,-etc.)">
+<a class="anchor" href="#Language-Models-(Unigrams,-Bigrams,-etc.)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Language Models (Unigrams, Bigrams, etc.)<a class="anchor-link" href="#Language-Models-(Unigrams,-Bigrams,-etc.)"> </a>
+</h5>
+<p>First, we need to create such a model that will assign a probability to a sequence of tokens. Let us start with an example:</p>
 <p><code>"The cat jumped over the puddle."</code></p>
 <p>A good language model will give this sentence a high probability because this is a completely valid sentence, syntactically and semantically. Similarly, the sentence <code>"stock boil fish is toy"</code> should have a very low probability because it makes no sense.</p>
 <p>Mathematically we can call this probability</p>
@@ -166,15 +199,19 @@ $$<p>But the drawback with the above approaches we need to have a huge matrix wh
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Continuos-Bag-of-Words">Continuos Bag of Words<a class="anchor-link" href="#Continuos-Bag-of-Words"> </a></h3><p><code>“The cat jumped over the puddle”</code></p>
+<h3 id="Continuos-Bag-of-Words">
+<a class="anchor" href="#Continuos-Bag-of-Words" aria-hidden="true"><span class="octicon octicon-link"></span></a>Continuos Bag of Words<a class="anchor-link" href="#Continuos-Bag-of-Words"> </a>
+</h3>
+<p><code>“The cat jumped over the puddle”</code></p>
 <p>In this sentence we treat {the, cat, over, the, puddle} bag as context words and output as jumped. We represent our sentence with one hot word vectors
 $X_C$ is our input context one hot vectors $Y_C$ is our output center word
 We create two matrices, $V ϵ R^{n * |V|}$ and $U ϵ R^{|V| * n}$.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/CBOW.png" alt="" style="max-width: 300px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/CBOW.png" alt="" style="max-width: 300px">
     
     
 </figure>
@@ -184,24 +221,32 @@ We create two matrices, $V ϵ R^{n * |V|}$ and $U ϵ R^{|V| * n}$.</p>
 <p>We denote this n * 1 vector as $v_i$.</p>
 <p>Similarly, <strong>U</strong> is the output word matrix. The jth row of U is an n-dimensional embedded vector for word $w_j$ when it is an output of the model. We denote this row of U as $u_j$.</p>
 <p>Note that we do in fact learn two vectors for every word $w_i$ (i.e. input word vector $v_i$ and output word vector $u_i$).</p>
-<h5 id="CBOW-FLOW">CBOW FLOW<a class="anchor-link" href="#CBOW-FLOW"> </a></h5><ol>
+<h5 id="CBOW-FLOW">
+<a class="anchor" href="#CBOW-FLOW" aria-hidden="true"><span class="octicon octicon-link"></span></a>CBOW FLOW<a class="anchor-link" href="#CBOW-FLOW"> </a>
+</h5>
+<ol>
 <li>We generate our one hot word vectors for the input context of size
 m : $(x^{(c-m)}, . . . , x^{(c-1)}, x^{(c+1)}, . . . , x^{(c+m)}\;\;  \epsilon \;\; R^{|V|})$</li>
-<li><p>We get our embedded word vectors for the context</p>
+<li>
+<p>We get our embedded word vectors for the context</p>
 <p>$(v^{c-m} =V^{(c-m)}, . . . , v^{(c-1)}=V^{(c-1)}, . . . , v^{(c+m)}=V^{(c+m)} \;\; \epsilon \;\; R^{n})$</p>
 </li>
-<li><p>Average these vectors to get  $\hat{v} = (v^{c-m}+.....+v^{c+1}+...+v^{c+m})/(2*m)  \;\;\epsilon \;\; R^{n}$</p>
+<li>
+<p>Average these vectors to get  $\hat{v} = (v^{c-m}+.....+v^{c+1}+...+v^{c+m})/(2*m)  \;\;\epsilon \;\; R^{n}$</p>
 </li>
-<li><p>Generate a score vector $z = U\hat{v} \;\;\epsilon\;\; R^{|V|}$. As the dot product of similar vectors is higher, it will      push similar words close to each other in order to achieve a high score.</p>
+<li>
+<p>Generate a score vector $z = U\hat{v} \;\;\epsilon\;\; R^{|V|}$. As the dot product of similar vectors is higher, it will      push similar words close to each other in order to achieve a high score.</p>
 </li>
 </ol>
 <ol>
 <li>Turn the scores into probabilities $\hat{y}=softmax(z)\;\; \epsilon\;\; R^{|V|}$</li>
 </ol>
 <ol>
-<li><p>We desire our probabilities generated, $\hat{y}\;\; \epsilon\;\; R^{|V|}$ , to match the true probabilities, $y\;\; \epsilon\;\; R^{|V|}$, which also happens to be the      one hot vector of the actual word</p>
+<li>
+<p>We desire our probabilities generated, $\hat{y}\;\; \epsilon\;\; R^{|V|}$ , to match the true probabilities, $y\;\; \epsilon\;\; R^{|V|}$, which also happens to be the      one hot vector of the actual word</p>
 </li>
-<li><p>Here, we use a popular choice of distance/loss measure, cross entropy $H(\hat{y}, y)$.</p>
+<li>
+<p>Here, we use a popular choice of distance/loss measure, cross entropy $H(\hat{y}, y)$.</p>
 </li>
 </ol>
 <p>$\;\;\;\;\;\;\;\;\;\;H(\hat{y}, y)=-\sum_{j=1}^{|V|}y_j*log(\hat{y_j})$</p>
@@ -213,7 +258,8 @@ m : $(x^{(c-m)}, . . . , x^{(c-1)}, x^{(c+1)}, . . . , x^{(c+m)}\;\;  \epsilon \
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this formulation, c is the index where the correct word’s one
 hot vector is 1. We can now consider the case where our prediction
@@ -228,7 +274,7 @@ distance</p>
 <p>So now mapping this probability distribution to our word vectors we get</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/objective_cbow.PNG" alt="" style="max-width: 800px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/objective_cbow.PNG" alt="" style="max-width: 800px">
     
     
 </figure>
@@ -237,14 +283,18 @@ distance</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Skip-Gram">Skip Gram<a class="anchor-link" href="#Skip-Gram"> </a></h4><p>Another approach is to create a model such that given the center word "jumped", the model will be able to predict or generate the surrounding words <code>"The", "cat", "over", "the", "puddle". Here we call the word "jumped" the context.</code> We call this type of model a Skip-Gram model.</p>
+<h4 id="Skip-Gram">
+<a class="anchor" href="#Skip-Gram" aria-hidden="true"><span class="octicon octicon-link"></span></a>Skip Gram<a class="anchor-link" href="#Skip-Gram"> </a>
+</h4>
+<p>Another approach is to create a model such that given the center word "jumped", the model will be able to predict or generate the surrounding words <code>"The", "cat", "over", "the", "puddle". Here we call the word "jumped" the context.</code> We call this type of model a Skip-Gram model.</p>
 <p>The setup is largely the same but we essentially swap our x and y i.e. x in the CBOW are
 now y and vice-versa. The input one hot vector (center word) we will represent with an x (since there is only one). And the output vectors as $y^j$. We define V and U the same as in CBOW</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/./images/skipgram.PNG" alt="" style="max-width: 300px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/./images/skipgram.PNG" alt="" style="max-width: 300px">
     
     
 </figure>
@@ -272,13 +322,14 @@ now y and vice-versa. The input one hot vector (center word) we will represent w
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The objective function we are trying to minimize assuming independence assumption. 
 In other words, given the center word, all output words are completely independent.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/objective_skipgram.PNG" alt="" style="max-width: 600px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/objective_skipgram.PNG" alt="" style="max-width: 600px">
     
     
 </figure>
@@ -295,7 +346,7 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p>For illustration purpose, let's assume that the entire corpus is composed of the quote from the Game of Thrones, <strong>"The man who passes the sentence should swing the sword"</strong>. There are 10 words (T=10), and 8 unique words (V=8).</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/word2vec_skip-gram_matrix.png" alt="" style="max-width: 600px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/word2vec_skip-gram_matrix.png" alt="" style="max-width: 600px">
     
     
 </figure>
@@ -304,21 +355,25 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Numerical-Demonstration-of-the-end-to-end-process">Numerical Demonstration of the end to end process<a class="anchor-link" href="#Numerical-Demonstration-of-the-end-to-end-process"> </a></h4><p>Forward Propagation: Computing hidden (projection) layer</p>
+<h4 id="Numerical-Demonstration-of-the-end-to-end-process">
+<a class="anchor" href="#Numerical-Demonstration-of-the-end-to-end-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numerical Demonstration of the end to end process<a class="anchor-link" href="#Numerical-Demonstration-of-the-end-to-end-process"> </a>
+</h4>
+<p>Forward Propagation: Computing hidden (projection) layer</p>
 <p>Center word is "passes". Window size is size=1, making "the" and "who" context words. Hidden layer (h) is looked up from the input weight matrix.</p>
 <p><strong>Forward Propogation</strong></p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n1.png" alt="" style="max-width: 500px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n1.png" alt="" style="max-width: 500px">
     
     
 </figure>
 </p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n2.png" alt="" style="max-width: 500px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n2.png" alt="" style="max-width: 500px">
     
     
 </figure>
@@ -326,7 +381,7 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p><strong>Backward Propogation</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n3.png" alt="" style="max-width: 500px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n3.png" alt="" style="max-width: 500px">
     
     
 </figure>
@@ -336,14 +391,14 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p>Unlike the input weight matrix $W_{input}$, all word vectors in the output weight matrix $W_{output}$ are updated.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n4.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n4.png" alt="" style="max-width: 700px">
     
     
 </figure>
 </p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n5.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n5.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -351,14 +406,14 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p>The <strong>updates</strong> to the input and output parameter matrices are done in below.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n6.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n6.png" alt="" style="max-width: 700px">
     
     
 </figure>
 </p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/n7.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/n7.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -367,12 +422,16 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Negative-Sampling">Negative Sampling<a class="anchor-link" href="#Negative-Sampling"> </a></h4><p>There is an issue with the vanilla Skip-Gram — <strong>softmax is computationally very expensive</strong>, as it requires scanning through the entire output embedding matrix $W_{output}$ to compute the probability distribution of all V words, where V can be millions or more.</p>
+<h4 id="Negative-Sampling">
+<a class="anchor" href="#Negative-Sampling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Negative Sampling<a class="anchor-link" href="#Negative-Sampling"> </a>
+</h4>
+<p>There is an issue with the vanilla Skip-Gram — <strong>softmax is computationally very expensive</strong>, as it requires scanning through the entire output embedding matrix $W_{output}$ to compute the probability distribution of all V words, where V can be millions or more.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/vanilla-skip-gram-complexity.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/vanilla-skip-gram-complexity.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -384,7 +443,7 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p>The below figure has 3-dimensional hidden layer (N=3), 11 vocabs (V=11), and 3 negative samples (K=3).</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_vs_skip.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_vs_skip.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -393,7 +452,8 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>How does negative sampling work?</strong></p>
 <p>With negative sampling, word vectors are no longer learned by predicting context words of a center word. Instead of using softmax to compute the V-dimensional probability distribution of observing an output word given an input word, $p(w_O|w_I)$, the model uses sigmoid function to learn to differentiate the actual context words (positive) from randomly drawn words (negative) from the noise distribution $P_n(w)$.</p>
@@ -405,7 +465,7 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p><strong>Negative sampling converts multi-classification task into binary-classification task.</strong></p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_binomial.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_binomial.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -428,7 +488,7 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 Example of optimizing</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_opt_1.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_opt_1.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -441,7 +501,7 @@ Example of optimizing</p>
 <p><em>Effect of raising power of unigram distribution U(w)</em></p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/noise_dist.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/noise_dist.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -450,12 +510,16 @@ Example of optimizing</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Numerical-Demo">Numerical Demo<a class="anchor-link" href="#Numerical-Demo"> </a></h4><p>Center (input) word is Ned, and window size is C=2, making Stark and is context words. Number of negative samples drawn from the noise distribution for each positive pair is K=3.</p>
+<h4 id="Numerical-Demo">
+<a class="anchor" href="#Numerical-Demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numerical Demo<a class="anchor-link" href="#Numerical-Demo"> </a>
+</h4>
+<p>Center (input) word is Ned, and window size is C=2, making Stark and is context words. Number of negative samples drawn from the noise distribution for each positive pair is K=3.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_training.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_training.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -466,7 +530,7 @@ Example of optimizing</p>
 <p>Hidden layer (h) is looked up from $W_{input}$ by multiplying the one-hot-encoded input vector with the input weight matrix $W_{input}$.</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_hidden.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_hidden.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -476,7 +540,7 @@ Example of optimizing</p>
 <p>given a center word (w). It is computed with sigmoid $\sigma(x) = \frac{1}{1+exp(-x)}$</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_forward_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_forward_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -485,7 +549,7 @@ Example of optimizing</p>
 <p>The details about the prediction error is described above. Since our current positive word is <code>Stark</code>, $t_j=1$ for <code>Stark</code> and $t_j=$0  for other negative words (pimples, zebra, idiot).</p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_1.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_1.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -495,7 +559,7 @@ Example of optimizing</p>
 Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_{input}$ that corresponds to the input (center) word w is updated
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_3.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_3.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -504,7 +568,7 @@ Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_
 <p>With negative sampling, only a fraction of word vectors in the output weight matrix $W_{output}$ is updated. Gradients for K+1 word vectors for positive and negative words in the Woutput are computed
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_4.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_4.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -513,14 +577,14 @@ Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_
 <p>Input and output weight matrices ($[W_{input} W_{output}]$) are updated
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_5.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_5.png" alt="" style="max-width: 700px">
     
     
 </figure>
 
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_6.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_6.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -529,14 +593,18 @@ Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Positive-word-pair:-(Ned,-is)">Positive word pair: (Ned, is)<a class="anchor-link" href="#Positive-word-pair:-(Ned,-is)"> </a></h4><p>The center word Ned has two context words: Stark and is. This means that we have two positive pairs = two updates to make. Since we already update the matrices ($[W_{input} W_{output}]$) using (Ned, Stark), we will use (Ned, is) to update weight matrices this time.</p>
+<h4 id="Positive-word-pair:-(Ned,-is)">
+<a class="anchor" href="#Positive-word-pair:-(Ned,-is)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Positive word pair: (Ned, is)<a class="anchor-link" href="#Positive-word-pair:-(Ned,-is)"> </a>
+</h4>
+<p>The center word Ned has two context words: Stark and is. This means that we have two positive pairs = two updates to make. Since we already update the matrices ($[W_{input} W_{output}]$) using (Ned, Stark), we will use (Ned, is) to update weight matrices this time.</p>
 <p>In negative sampling, we draw new K negative words for each positive pairs. Assume that we randomly drew coins, donkey, and machine as our negative words this time.</p>
 <p><strong>Forward Propagation: Computing hidden (projection) layer</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_hidden_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_hidden_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -544,7 +612,7 @@ Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_
 <p><strong>Forward Propagation: Sigmoid output layer</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_forward_2_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_forward_2_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -553,7 +621,7 @@ Just like vanilla Skip-Gram, only the word vector in the input weight matrix $W_
 Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other negative words (coins, donkey, and machine)
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_1_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_1_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -561,7 +629,7 @@ Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other nega
 <p><strong>Backward Propagation: Computing $\nabla W_{input}$</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_2_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_2_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -569,7 +637,7 @@ Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other nega
 <p><strong>Backward Propagation: Computing $\nabla W_{output}$</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_3_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_3_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -577,14 +645,14 @@ Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other nega
 <p><strong>Backward Propagation: Updating Weight matrices</strong>
 <figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_4_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_4_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
 </p>
 <p><figure>
   
-    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_5_2.png" alt="" style="max-width: 700px" />
+    <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_backward_5_2.png" alt="" style="max-width: 700px">
     
     
 </figure>
@@ -593,9 +661,13 @@ Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other nega
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="References">References<a class="anchor-link" href="#References"> </a></h4><p><a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf">http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf</a>
+<h4 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
+</h4>
+<p><a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf">http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf</a>
 <a href="https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_modeling">https://aegis4048.github.io/demystifying_neural_network_in_skip_gram_language_modeling</a></p>
 
 </div>
@@ -605,7 +677,15 @@ Our current positive word is Stark: $t_j=1$ for Stark and $t_j=0$ for other nega
 
 
 
-  </div><a class="u-url" href="/intuition/2021/01/28/Word-Vectors-NLP.html" hidden></a>
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="imtiazBDSgit/intuition"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/intuition/jupyter/2021/01/28/Word-Vectors-NLP.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
