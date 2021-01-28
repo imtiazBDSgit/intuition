@@ -434,9 +434,9 @@ vector $\hat{y}$ and the one-hot vector $y_{c-m+j}$.</p>
 <p>$\bar{c}_{output{(j)}} \in \{\bar{c}_{pos}\} \cup \bar{W}_{neg}
 \tag{2}$</p>
 <p>This probability is computed K+1 times to obtain a probability distribution of a true context word and K negative samples:</p>
-<h1 id="$\left[-\begin{array}{c}-p(D=1|w,c_{pos})-\\-p(D=1|w,c_{neg,-1})-\\-p(D=1|w,c_{neg,-2})-\\-p(D=1|w,c_{neg,-3})-\\-\vdots-\\-p(D=1|w,c_{neg,-K})-\end{array}-\right]-">$\left[ \begin{array}{c} p(D=1|w,c_{pos}) \\ p(D=1|w,c_{neg, 1}) \\ p(D=1|w,c_{neg, 2}) \\ p(D=1|w,c_{neg, 3}) \\ \vdots \\ p(D=1|w,c_{neg, K}) \end{array} \right] <a class="anchor-link" href="#$\left[-\begin{array}{c}-p(D=1|w,c_{pos})-\\-p(D=1|w,c_{neg,-1})-\\-p(D=1|w,c_{neg,-2})-\\-p(D=1|w,c_{neg,-3})-\\-\vdots-\\-p(D=1|w,c_{neg,-K})-\end{array}-\right]-"> </a></h1><p>\frac{1}{1+exp(-({\bar{c}<em>{pos}} \cup \bar{W}</em>{neg}) \cdot h)}
-\in \mathbb{R}^{K+1}\tag{3}$</p>
-<p>Example of optimizing</p>
+<p>$\left[ \begin{array}{c} p(D=1|w,c_{pos}) \\ p(D=1|w,c_{neg, 1}) \\ p(D=1|w,c_{neg, 2}) \\ p(D=1|w,c_{neg, 3}) \\ \vdots \\ p(D=1|w,c_{neg, K}) \end{array} \right] 
+= \frac{1}{1+exp(-(\{\bar{c}_{pos}\} \cup \bar{W}_{neg}) \cdot h)}\in \mathbb{R}^{K+1}\tag{3}$
+Example of optimizing</p>
 <p><figure>
   
     <img class="docimage" src="/intuition/images/copied_from_nb/images/neg_opt_1.png" alt="" style="max-width: 700px" />
